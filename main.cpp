@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "game.h"
 #include "deck.h"
 #include "card.h"
 #include "hand.h"

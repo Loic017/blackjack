@@ -6,6 +6,7 @@
 
 void Hand::add_card(Card card) {
   cards.emplace_back(card);
+  total_points();
 }
 
 void Hand::remove_card(int index) {}
@@ -14,6 +15,10 @@ void Hand::show_hand() {
   for (int i = 0; i < cards.size(); i++) {
     std::cout << cards[i].get_suit() << " of " << cards[i].get_rank() << std::endl;
   }
+}
+
+void Hand::show_a_card(int idx) {
+  std::cout << cards[idx].get_suit() << " of " << cards[idx].get_rank() << std::endl;
 }
 
 void Hand::total_points() {
@@ -26,7 +31,6 @@ void Hand::total_points() {
 }
 
 int Hand::get_points() {
-  total_points();
   return points;
 }
 

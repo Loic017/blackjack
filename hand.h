@@ -12,6 +12,7 @@ public:
   void add_card(Card card);
   void remove_card(int index);
   void show_hand();
+    void show_a_card(int idx);
   void total_points();
     int get_points();
   int get_size();
