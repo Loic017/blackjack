@@ -7,18 +7,12 @@
 
 int main() {
 
-    Deck deck;
-    deck.print_deck();
-    Card card_1 = Card(deck.draw_card());
-    deck.shuffle_deck();
-    deck.print_deck();
-    Card card_2 = Card(deck.draw_card());
-
-    Hand player_1;
-    player_1.add_card(card_1);
-    player_1.add_card(card_2);
-    player_1.show_hand();
-
+    Game game;
+    game.start_game();
+    game.initial_deal();
+    game.player_turn();
+    game.dealer_turn();
+    game.check_winner();
 
     return 0;
 }

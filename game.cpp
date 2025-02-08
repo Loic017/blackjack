@@ -1,9 +1,16 @@
 #include <vector>
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include "deck.h"
 #include "hand.h"
 #include "card.h"
 #include "game.h"
+
+void text_with_prior_delay(std::string text, int delay) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+  std::cout << text << std::endl;
+}
 
 void Game::start_game() {
   std::cout << "Starting blackjack game..." << std::endl;
@@ -15,24 +22,24 @@ void Game::reset_game() {
   deck = Deck();
 }
 
-int Game::calculate_hand(Hand hand) {
+int Game::calculate_hand(Hand& hand) {
   return hand.get_points();
 };
 
-void Game::deal_card(Hand hand) {
+void Game::deal_card(Hand& hand) {
   Card card = Card(deck.draw_card());
   hand.add_card(card);
 }
 
 void Game::initial_deal() {
-  std::cout << "-------------- Dealing player cards" << std::endl;
+  text_with_prior_delay("-------------- Dealing player's cards", 1000);
   deal_card(player);
   deal_card(player);
   std::cout << "Player's hand:" << std::endl;
   player.show_hand();
-  std::cout << "Player's points: " << player.get_points() << std::endl;
+  std::cout << std::endl <<  "Player's points: " << player.get_points() << std::endl;
 
-  std::cout << "-------------- Dealing dealer cards" << std::endl;
+  text_with_prior_delay("-------------- Dealing dealer's cards", 1000);
   deal_card(dealer);
   deal_card(dealer);
   std::cout << "Dealer's face up card:" << std::endl;
@@ -40,12 +47,15 @@ void Game::initial_deal() {
 }
 
 void Game::dealer_turn() {
-  std::cout << "-------------- Dealer's turn" << std::endl;
+  std::cout << std::endl;
+  text_with_prior_delay("-------------- Dealer's turn", 1000);
   std::cout << "Dealer's hand:" << std::endl;
   dealer.show_hand();
   std::cout << "Dealer's Points: " << dealer.get_points() << std::endl;
 
   while (true) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    std::cout << std::endl;
     if (dealer.get_points() < 17) {
       std::cout << "Dealer gets another card" << std::endl;
       deal_card(dealer);
@@ -57,17 +67,24 @@ void Game::dealer_turn() {
       std::cout << "Dealer's points above 17, turn ended" << std::endl;
       return;
     }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     std::cout << "Dealer's hand:" << std::endl;
     dealer.show_hand();
+    std::cout << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     std::cout << "Dealer's Points: " << dealer.get_points() << std::endl;
   }
 }
 
 void Game::player_turn() {
-  std::cout << "-------------- Player's turn" << std::endl;
+  std::cout << std::endl;
+  text_with_prior_delay("-------------- Player's turn", 1000);
   while (true) {
+    std::cout << std::endl;
     int input;
     while (true) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(2000));
       std::cout << "Hit or stand (1 or 2)?" << std::endl;
       std::cin >> input;
 
@@ -80,8 +97,11 @@ void Game::player_turn() {
 
     if (input == 1) {
       std::cout << "Dealing a card" << std::endl;
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       deal_card(player);
+      std::cout << "Player's hand:" << std::endl;
       player.show_hand();
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       std::cout << "Points: " << player.get_points() << std::endl;
 
       if (player.get_points() > 21) {
@@ -103,7 +123,8 @@ void Game::player_turn() {
 }
 
 void Game::check_winner() {
-  std::cout << "Calculating Points" << std::endl;
+  std::cout << std::endl;
+  text_with_prior_delay("Calculating Points", 1000);
   int player_points = player.get_points();
   int dealer_points = dealer.get_points();
 
@@ -127,6 +148,4 @@ void Game::check_winner() {
       std::cout << "It's a draw!" << std::endl;
     }
   }
-}
-
 }

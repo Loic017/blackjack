@@ -14,9 +14,9 @@ public:
   void start_game();
   void reset_game();
 
-  int calculate_hand(Hand hand);
+  int calculate_hand(Hand& hand);
 
-  void deal_card(Hand hand);
+  void deal_card(Hand& hand);
 
   void initial_deal();
   void dealer_turn();
