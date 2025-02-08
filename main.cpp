@@ -1,19 +1,23 @@
 #include <iostream>
 
 #include "deck.h"
+#include "card.h"
+#include "hand.h"
 
 int main() {
 
     Deck deck;
     deck.print_deck();
+    Card card_1 = Card(deck.draw_card());
     deck.shuffle_deck();
     deck.print_deck();
+    Card card_2 = Card(deck.draw_card());
 
-    std::cout << std::endl;
-    std::cout << "Getting one card";
-    std::tuple<std::string, std::string> card = deck.draw_card();
-    std::cout << std::get<0>(card) << std::endl;
-    std::cout << std::get<1>(card) << std::endl;
+    Hand player_1;
+    player_1.add_card(card_1);
+    player_1.add_card(card_2);
+    player_1.show_hand();
+
 
     return 0;
 }

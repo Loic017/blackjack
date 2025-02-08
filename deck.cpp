@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <random>
 
 Deck::Deck() {
     std::vector<std::string> suits = { "Spades", "Hearts", "Diamonds", "Clubs" };
@@ -22,6 +23,7 @@ void Deck::print_deck()
     for (auto & card : deck) {
         std::cout << std::get<0>(card) << " of " << std::get<1>(card) << " | ";
     }
+    std::cout << std::endl;
 }
 
 std::vector<std::tuple<std::string, std::string>> Deck::get_deck()
@@ -31,7 +33,9 @@ std::vector<std::tuple<std::string, std::string>> Deck::get_deck()
 
 std::tuple<std::string, std::string> Deck::draw_card()
 {
-    return deck[0];
+    std::tuple<std::string, std::string> out_card = deck.front();
+    deck.erase(deck.begin());
+    return out_card;
 }
 
 // std::tuple<std::string, std::string> Deck::return_card()
@@ -44,7 +48,10 @@ void Deck::shuffle_deck()
     std::vector<std::tuple<std::string, std::string>> copy_deck;
     for (auto & i : deck)
     {
-        int idx = rand() % deck.size();
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, deck.size() - 1);
+        int idx = dis(gen);
         copy_deck.emplace_back(deck[idx]);
         deck.erase(deck.begin() + idx);
     }
